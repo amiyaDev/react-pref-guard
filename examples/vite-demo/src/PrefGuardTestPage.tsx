@@ -1,118 +1,145 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { withPerfGuard, PerfProfiler } from "react-pref-guard";
 
-/* --------------------------------------------------
-   1️⃣ FAST COMPONENT (CONTROL CASE – NO WARNING)
--------------------------------------------------- */
+/* ======================================================
+   1️⃣ FAST COMPONENT (CONTROL – MUST NEVER WARN)
+====================================================== */
 function FastComponent() {
-  return <div>✅ Fast Component (should NOT warn)</div>;
+  return <p>✅ FastComponent (no warnings expected)</p>;
 }
-
 const GuardedFast = withPerfGuard(FastComponent);
 
-/* --------------------------------------------------
-   2️⃣ EXCESSIVE RE-RENDER TEST
--------------------------------------------------- */
-function ReRenderBomb() {
-  const [count, setCount] = useState(0);
+/* ======================================================
+   2️⃣ TRUE EXCESSIVE RENDER BOMB
+   - Forces 30+ renders in ONE batch window
+====================================================== */
+function ExcessiveRenderBomb() {
+  const [, force] = useState(0);
 
-  return (
-    <div>
-      <h3>🔥 Excessive Re-render Test</h3>
-      <button onClick={() => setCount((c) => c + 1)}>
-        Re-render ({count})
-      </button>
-    </div>
-  );
+  useEffect(() => {
+    let count = 0;
+    const id = setInterval(() => {
+      force(v => v + 1);
+      count++;
+      if (count >= 35) clearInterval(id);
+    }, 10); // very fast renders
+    return () => clearInterval(id);
+  }, []);
+
+  return <p>💣 ExcessiveRenderBomb (renders storm)</p>;
 }
+const GuardedRenderBomb = withPerfGuard(ExcessiveRenderBomb);
 
-const GuardedReRenderBomb = withPerfGuard(ReRenderBomb);
-
-/* --------------------------------------------------
-   3️⃣ SLOW RENDER TEST (>16ms)
--------------------------------------------------- */
-function SlowRenderComponent() {
-  // Artificial blocking work
-  const start = performance.now();
-  while (performance.now() - start < 20) {}
-
-  return <div>🐢 Slow Render Component</div>;
-}
-
-const GuardedSlowRender = withPerfGuard(SlowRenderComponent);
-
-/* --------------------------------------------------
-   4️⃣ MULTIPLE ISSUES TEST (RENDER + SLOW)
--------------------------------------------------- */
-function MultiIssueComponent() {
-  const [state, setState] = useState(0);
-
+/* ======================================================
+   3️⃣ PERSISTENT SLOW RENDER
+====================================================== */
+function SlowRenderPersistent() {
   const start = performance.now();
   while (performance.now() - start < 25) {}
+  return <p>🐢 SlowRenderPersistent</p>;
+}
+const GuardedSlow = withPerfGuard(SlowRenderPersistent);
 
-  return (
-    <div>
-      <h3>💥 Multi Issue Component</h3>
-      <button onClick={() => setState(Math.random())}>
-        Trigger Heavy Render ({state})
-      </button>
-    </div>
-  );
+/* ======================================================
+   4️⃣ MULTI-ISSUE COMPONENT
+   - Slow + excessive renders
+====================================================== */
+function MultiIssueComponent() {
+  const [, force] = useState(0);
+
+  useEffect(() => {
+    let i = 0;
+    const id = setInterval(() => {
+      force(v => v + 1);
+      i++;
+      if (i >= 30) clearInterval(id);
+    }, 12);
+    return () => clearInterval(id);
+  }, []);
+
+  const start = performance.now();
+  while (performance.now() - start < 30) {}
+
+  return <p>💥 MultiIssueComponent</p>;
+}
+const GuardedMulti = withPerfGuard(MultiIssueComponent);
+
+/* ======================================================
+   5️⃣ ONE-TIME SPIKE (MUST BE SUPPRESSED)
+====================================================== */
+function OneTimeSpike() {
+  const [ran, setRan] = useState(false);
+
+  if (!ran) {
+    const start = performance.now();
+    while (performance.now() - start < 40) {}
+    setRan(true);
+  }
+
+  return <p>⚡ OneTimeSpike (should NOT warn)</p>;
+}
+const GuardedSpike = withPerfGuard(OneTimeSpike);
+
+/* ======================================================
+   6️⃣ REGRESSION TEST
+   - Starts fast
+   - Becomes slow after 10s
+====================================================== */
+function RegressionComponent() {
+  const [slow, setSlow] = useState(false);
+
+  useEffect(() => {
+    const id = setTimeout(() => setSlow(true), 10000);
+    return () => clearTimeout(id);
+  }, []);
+
+  if (slow) {
+    const start = performance.now();
+    while (performance.now() - start < 30) {}
+  }
+
+  return <p>📉 RegressionComponent</p>;
+}
+const GuardedRegression = withPerfGuard(RegressionComponent);
+
+/* ======================================================
+   7️⃣ INLINE PROFILER (INFO ONLY)
+====================================================== */
+function InlineProfiledTree() {
+  const start = performance.now();
+  while (performance.now() - start < 25) {}
+  return <p>📦 InlineProfiledTree</p>;
 }
 
-const GuardedMultiIssue = withPerfGuard(MultiIssueComponent);
-
-/* --------------------------------------------------
-   5️⃣ OPTIMIZED VERSION (FALSE POSITIVE CHECK)
--------------------------------------------------- */
-function OptimizedComponent({ items }: { items: number[] }) {
-  const filtered = items.filter((n) => n % 2 === 0);
-
-  return (
-    <div>
-      <h3>🧠 Optimized Component</h3>
-      {filtered.map((n) => (
-        <span key={n}>{n} </span>
-      ))}
-    </div>
-  );
-}
-
-const GuardedOptimized = withPerfGuard(OptimizedComponent);
-
-/* --------------------------------------------------
+/* ======================================================
    MAIN TEST PAGE
--------------------------------------------------- */
-export default function PerfGuardTestPage() {
+====================================================== */
+export default function PerfGuardE2ETestPage() {
   return (
     <div style={{ padding: 24 }}>
-      <h1>🧪 React Pref Guard – Test Page</h1>
-      {/* 
-      <hr />
+      <h1>🧪 Pref Guard – End-to-End Rule Engine Test</h1>
 
+      <hr />
       <GuardedFast />
 
       <hr />
-
-      <GuardedReRenderBomb />
-
-      <hr />
-
-      <GuardedSlowRender />
+      <GuardedRenderBomb />
 
       <hr />
+      <GuardedSlow />
 
-      <GuardedMultiIssue />
+      <hr />
+      <GuardedMulti />
 
-      <hr /> */}
+      <hr />
+      <GuardedSpike />
 
-      <PerfProfiler id="InlineProfiler">
-        <OptimizedComponent
-          items={[
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 312, 412, 3234, 123213,
-            213213213, 1231,
-          ]}
-        />
+      <hr />
+      <GuardedRegression />
+
+      <hr />
+      <PerfProfiler id="InlineBoundary">
+        <InlineProfiledTree />
       </PerfProfiler>
     </div>
   );

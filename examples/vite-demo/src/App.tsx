@@ -2,8 +2,9 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import BadList from './badList'
-import PerfGuardTestPage from './PrefGuardTestPage'
+
+import PerfGuardE2ETestPage from './PrefGuardTestPage'
+import PerfGuardTestHarness from './FInalTest'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -31,8 +32,9 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
 
-       <PerfGuardTestPage />
+       <PerfGuardE2ETestPage />
 
+{/* <PerfGuardTestHarness /> */}
       {/* <BadList items={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} /> */}
     </>
   )
