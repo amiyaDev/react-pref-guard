@@ -28,7 +28,7 @@ export function PerfProvider({ children }: { children: React.ReactNode }) {
         payload: rules,
       });
 
-      console.log(`[PerfGuard] Initialized with ${rules.length} rules`);
+      // console.log(`[PerfGuard] Initialized with ${rules.length} rules`);
 
       worker.onmessage = (e) => {
         const { type, data, hasCritical } = e.data;

@@ -70,7 +70,7 @@ function severityColor(sev: Issue["severity"]) {
 --------------------------------------------- */
 
 export function showWarning(result: Result) {
-  console.log("[PerfGuard] Processing result for", result);
+  // console.log("[PerfGuard] Processing result for", result);
   const seenThisBatch = new Set<string>();
 
   // 1️⃣ Process current issues

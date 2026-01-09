@@ -1,54 +1,60 @@
 {
   "name": "react-pref-guard",
   "version": "0.1.0",
-  "description": "Dev-only React performance guard using React Profiler",
+  "description": "Dev-only performance guardrail for React and Next.js using React Profiler",
   "author": "Amiya Das",
   "license": "MIT",
-  "private": true,
+  "private": false,
+
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     }
   },
-  "files": [
-    "dist"
-  ],
+
+  "files": ["dist"],
   "sideEffects": false,
+
   "peerDependencies": {
-    "react": ">=17"
+    "react": ">=17",
+    "react-dom": ">=17"
   },
+
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts",
-    "dev": "tsup --watch",
     "clean": "rm -rf dist",
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "prepublishOnly": "pnpm clean && pnpm build",
+    "dev": "tsup --watch",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
   },
+
   "keywords": [
     "react",
     "performance",
     "react-profiler",
-    "devtools"
+    "devtools",
+    "nextjs",
+    "profiling",
+    "performance-monitoring"
   ],
+
   "devDependencies": {
-    "@babel/preset-env": "^7.28.5",
-    "@babel/preset-react": "^7.28.5",
-    "@babel/preset-typescript": "^7.28.5",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.1",
+    "@types/react": "^19.2.7",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.10.4",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
     "tsup": "^8.5.1",
     "typescript": "~5.9.3"
-  },
-  "dependencies": {
-    "@types/react": "^19.2.7"
   }
 }

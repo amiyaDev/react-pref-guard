@@ -330,7 +330,7 @@ function evaluate(snapshot) {
       /* Init rules once */
       if (type === "INIT_RULES") {
         RULES = payload;
-        console.log('[PerfGuard Worker] Rules loaded:', RULES.length);
+        // console.log('[PerfGuard Worker] Rules loaded:', RULES.length);
         self.postMessage({ type: "INIT_SUCCESS", count: RULES.length });
         return;
       }
@@ -365,7 +365,7 @@ function evaluate(snapshot) {
           }
         }
 
-        console.log('[PerfGuard Worker] Evaluation complete:', results.length, 'issues');
+        // console.log('[PerfGuard Worker] Evaluation complete:', results.length, 'issues');
         self.postMessage({ 
           type: "RESULTS", 
           data: results,

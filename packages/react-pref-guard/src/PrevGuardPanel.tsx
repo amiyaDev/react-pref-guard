@@ -22,7 +22,7 @@ export function PerfGuardPanel() {
     </div>
   );
 }
-  console.log("Rendering PerfGuardPanel with issues:", issues);
+  // console.log("Rendering PerfGuardPanel with issues:", issues);
 
   const criticalCount = issues.filter(
     (i) => i.severity === "CRITICAL" && i.status === "ACTIVE"
