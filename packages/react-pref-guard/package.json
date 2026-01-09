@@ -1,15 +1,13 @@
 {
   "name": "react-pref-guard",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Dev-only performance guardrail for React and Next.js using React Profiler",
   "author": "Amiya Das",
   "license": "MIT",
   "private": false,
-
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -17,17 +15,16 @@
       "require": "./dist/index.cjs"
     }
   },
-
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
-
   "peerDependencies": {
     "react": ">=17",
     "react-dom": ">=17"
   },
-
   "scripts": {
-    "clean": "rm -rf dist",
+    "clean": "rimraf dist",
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "prepublishOnly": "pnpm clean && pnpm build",
     "dev": "tsup --watch",
@@ -35,7 +32,6 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
   },
-
   "keywords": [
     "react",
     "performance",
@@ -45,15 +41,15 @@
     "profiling",
     "performance-monitoring"
   ],
-
   "devDependencies": {
-    "@types/react": "^19.2.7",
-    "@types/jest": "^30.0.0",
-    "@types/node": "^24.10.4",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.1",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.10.4",
+    "@types/react": "^19.2.7",
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
+    "rimraf": "^6.1.2",
     "tsup": "^8.5.1",
     "typescript": "~5.9.3"
   }
