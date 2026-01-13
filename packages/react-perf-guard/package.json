@@ -1,15 +1,15 @@
 {
   "name": "react-perf-guard",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Dev-only performance guardrail for React and Next.js using React Profiler",
   "author": "Amiya Das",
   "repository": {
     "type": "git",
-    "url": "https://github.com/amiyadas/react-perf-guard"
+    "url": "https://github.com/amiyaDev/react-perf-guard"
   },
-  "homepage": "https://github.com/amiyadas/react-perf-guard#readme",
+  "homepage": "https://github.com/amiyaDev/react-perf-guard#readme",
   "bugs": {
-    "url": "https://github.com/amiyadas/react-perf-guard/issues"
+    "url": "https://github.com/amiyaDev/react-perf-guard/issues"
   },
   "license": "MIT",
   "private": false,
