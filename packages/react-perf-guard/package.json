@@ -26,7 +26,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "tsup src/index.ts --format esm,cjs --dts",
-    "prepublishOnly": "pnpm clean && pnpm build",
+    "prepublishOnly": "npm run clean && npm run build",
     "dev": "tsup --watch",
     "test": "jest",
     "test:watch": "jest --watch",
