@@ -1,4 +1,4 @@
-import { withPerfGuard } from "react-pref-guard";
+import { withPerfGuard } from "react-perf-guard";
 import { TestWrapper } from "./TestWrapper";
 import React from "react";
 import { triggerRenders } from "../Utils/prefUtils";

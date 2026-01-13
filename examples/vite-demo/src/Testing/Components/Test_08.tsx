@@ -1,4 +1,4 @@
-import { withPerfGuard } from "react-pref-guard";
+import { withPerfGuard } from "react-perf-guard";
 import { burnCPU, triggerRenders } from "../Utils/prefUtils";
 import { TestWrapper } from "./TestWrapper";
 import React from "react";

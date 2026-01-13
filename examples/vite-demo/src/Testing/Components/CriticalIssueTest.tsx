@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { withPerfGuard } from "react-pref-guard";
+import { withPerfGuard } from "react-perf-guard";
 
 function burnCPU(ms: number) {
   const start = performance.now();

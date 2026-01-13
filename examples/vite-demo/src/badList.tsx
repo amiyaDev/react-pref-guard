@@ -1,4 +1,4 @@
-import { PerfProvider, withPerfGuard, PerfProfiler } from "react-pref-guard";
+import { PerfProvider, withPerfGuard, PerfProfiler } from "react-perf-guard";
 
 
 

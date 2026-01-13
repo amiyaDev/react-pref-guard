@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { withPerfGuard, PerfProfiler } from "react-pref-guard";
+import { withPerfGuard, PerfProfiler } from "react-perf-guard";
 
 /* ======================================================
    1️⃣ FAST COMPONENT (CONTROL – MUST NEVER WARN)

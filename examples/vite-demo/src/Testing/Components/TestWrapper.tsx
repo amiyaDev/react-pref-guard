@@ -1,5 +1,5 @@
 // TestWrapper.tsx
-import { PerfProfiler } from "react-pref-guard";
+import { PerfProfiler } from "react-perf-guard";
 
 export function TestWrapper({
   id,
